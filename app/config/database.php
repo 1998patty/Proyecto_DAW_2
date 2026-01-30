@@ -1,5 +1,5 @@
 <?php
-// Cargar variables de entorno desde .env
+// Cargar variables de entorno desde .env (para desarrollo local)
 $envFile = __DIR__ . '/../../.env';
 if (file_exists($envFile)) {
     $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -20,11 +20,12 @@ class Database {
     private $conn;
 
     public function __construct() {
-        $this->host = $_ENV['MYSQL_HOST'] ?? 'localhost';
-        $this->port = $_ENV['MYSQL_PORT'] ?? '3306';
-        $this->db_name = $_ENV['MYSQL_DATABASE'] ?? 'libreria_online';
-        $this->username = $_ENV['MYSQL_USER'] ?? 'root';
-        $this->password = $_ENV['MYSQL_PASSWORD'] ?? '';
+        // Compatible con Railway (MYSQLHOST) y local (MYSQL_HOST)
+        $this->host = getenv('MYSQLHOST') ?: ($_ENV['MYSQL_HOST'] ?? 'localhost');
+        $this->port = getenv('MYSQLPORT') ?: ($_ENV['MYSQL_PORT'] ?? '3306');
+        $this->db_name = getenv('MYSQLDATABASE') ?: ($_ENV['MYSQL_DATABASE'] ?? 'railway');
+        $this->username = getenv('MYSQLUSER') ?: ($_ENV['MYSQL_USER'] ?? 'root');
+        $this->password = getenv('MYSQLPASSWORD') ?: ($_ENV['MYSQL_PASSWORD'] ?? '');
     }
 
     public function getConnection() {
@@ -36,7 +37,7 @@ class Database {
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn->exec("set names utf8");
         } catch(PDOException $e) {
-            echo "Error de conexión: " . $e->getMessage();
+            die("Error de conexión: " . $e->getMessage());
         }
 
         return $this->conn;
