@@ -1,0 +1,17 @@
+# Claude Code
+.claude/
+
+# Variables de entorno (credenciales)
+.env
+
+# Archivos subidos por usuarios
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
