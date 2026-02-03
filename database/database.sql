@@ -37,6 +37,18 @@ CREATE TABLE IF NOT EXISTS comentarios (
 INSERT INTO usuarios (nombre, email, password, rol) VALUES
 ('Administrador', 'admin@libreria.com', '$2y$12$5YdYVMS5XW3DDSimrqqgEuHN70PHnoKA6VtCZcZFzzfz17b7h7isC', 'admin');
 
+-- Tabla de puntuaciones
+CREATE TABLE IF NOT EXISTS puntuaciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    libro_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    puntuacion TINYINT NOT NULL CHECK (puntuacion >= 1 AND puntuacion <= 5),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (libro_id) REFERENCES libros(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_voto (libro_id, usuario_id)
+);
+
 -- Libros de ejemplo
 INSERT INTO libros (titulo, autor, descripcion, genero, anio) VALUES
 ('Cien años de soledad', 'Gabriel García Márquez', 'La novela narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo.', 'Realismo mágico', 1967),

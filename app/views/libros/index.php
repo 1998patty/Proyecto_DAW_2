@@ -22,8 +22,25 @@
                     <div class="libro-info">
                         <h3><?php echo htmlspecialchars($libro['titulo']); ?></h3>
                         <p class="autor"><?php echo htmlspecialchars($libro['autor']); ?></p>
+                        <?php
+                        $promedio = isset($puntuaciones[$libro['id']]) ? $puntuaciones[$libro['id']]['promedio'] : 0;
+                        $total = isset($puntuaciones[$libro['id']]) ? $puntuaciones[$libro['id']]['total'] : 0;
+                        ?>
+                        <div class="estrellas-display">
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <?php if ($i <= floor($promedio)): ?>
+                                    <span class="estrella llena">&#9733;</span>
+                                <?php elseif ($i - 0.5 <= $promedio): ?>
+                                    <span class="estrella media">&#9733;</span>
+                                <?php else: ?>
+                                    <span class="estrella vacia">&#9733;</span>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+                            <span class="puntuacion-texto"><?php echo $promedio > 0 ? $promedio : '-'; ?></span>
+                            <span class="votos-texto">(<?php echo $total; ?>)</span>
+                        </div>
                         <span class="genero"><?php echo htmlspecialchars($libro['genero']); ?></span>
-                        <a href="index.php?controller=libro&action=show&id=<?php echo $libro['id']; ?>" class="btn-ver">Ver más</a>
+                        <a href="index.php?controller=libro&action=show&id=<?php echo $libro['id']; ?>" class="btn-ver">Ver mas</a>
                     </div>
                 </article>
             <?php endforeach; ?>

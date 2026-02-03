@@ -648,6 +648,148 @@ main {
     grid-column: 1 / -1;
 }
 
+/* Sistema de puntuacion con estrellas */
+.estrellas-display {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin: 8px 0;
+}
+
+.estrellas-display.grande {
+    gap: 4px;
+}
+
+.estrellas-display .estrella {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.estrellas-display.grande .estrella {
+    font-size: 1.5rem;
+}
+
+.estrella.llena {
+    color: #f39c12;
+}
+
+.estrella.media {
+    color: #f39c12;
+    position: relative;
+}
+
+.estrella.vacia {
+    color: #ddd;
+}
+
+.puntuacion-texto {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-left: 5px;
+}
+
+.votos-texto {
+    font-size: 0.8rem;
+    color: #95a5a6;
+}
+
+/* Seccion de puntuacion en detalle */
+.puntuacion-seccion {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.puntuacion-promedio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.promedio-numero {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.total-votos {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.tu-puntuacion {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+}
+
+.tu-voto-label {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.form-estrellas {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estrellas interactivas */
+.estrellas-input {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 2px;
+}
+
+.estrellas-input input {
+    display: none;
+}
+
+.estrellas-input label {
+    font-size: 1.8rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.estrellas-input label:hover,
+.estrellas-input label:hover ~ label,
+.estrellas-input input:checked ~ label {
+    color: #f39c12;
+}
+
+.btn-votar {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.btn-votar:hover {
+    background-color: #2980b9;
+}
+
+.login-puntuar {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.login-puntuar a {
+    color: #3498db;
+}
+
 /* Footer */
 .footer {
     background-color: #2c3e50;

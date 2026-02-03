@@ -1,17 +1,21 @@
 <?php
 require_once __DIR__ . '/../models/Libro.php';
 require_once __DIR__ . '/../models/Comentario.php';
+require_once __DIR__ . '/../models/Puntuacion.php';
 
 class LibroController {
     private $modelo;
+    private $puntuacionModelo;
 
     public function __construct() {
         $this->modelo = new Libro();
+        $this->puntuacionModelo = new Puntuacion();
     }
 
     // Mostrar catálogo
     public function index() {
         $libros = $this->modelo->getAll();
+        $puntuaciones = $this->puntuacionModelo->getPromediosTodos();
         require_once __DIR__ . '/../views/libros/index.php';
     }
 
@@ -23,6 +27,7 @@ class LibroController {
         } else {
             $libros = $this->modelo->getAll();
         }
+        $puntuaciones = $this->puntuacionModelo->getPromediosTodos();
         require_once __DIR__ . '/../views/libros/index.php';
     }
 
@@ -39,7 +44,34 @@ class LibroController {
         $comentarioModelo = new Comentario();
         $comentarios = $comentarioModelo->getByLibro($id);
 
+        // Obtener puntuacion
+        $puntuacionInfo = $this->puntuacionModelo->getPromedio($id);
+        $puntuacionUsuario = 0;
+        if (isset($_SESSION['usuario_id'])) {
+            $puntuacionUsuario = $this->puntuacionModelo->getPuntuacionUsuario($id, $_SESSION['usuario_id']);
+        }
+
         require_once __DIR__ . '/../views/libros/show.php';
+    }
+
+    // Puntuar libro
+    public function puntuar() {
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: index.php?controller=auth&action=login');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $libro_id = isset($_POST['libro_id']) ? (int)$_POST['libro_id'] : 0;
+            $puntuacion = isset($_POST['puntuacion']) ? (int)$_POST['puntuacion'] : 0;
+
+            if ($libro_id > 0 && $puntuacion >= 1 && $puntuacion <= 5) {
+                $this->puntuacionModelo->puntuar($libro_id, $_SESSION['usuario_id'], $puntuacion);
+            }
+
+            header('Location: index.php?controller=libro&action=show&id=' . $libro_id);
+            exit;
+        }
     }
 
     // Formulario crear libro (solo admin)
